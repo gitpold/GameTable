@@ -38,17 +38,17 @@ class GameTable(object):
     #alle LEDs an
     def switchAllLEDsOn(self):
         for button in gameTable:
-            button.arcade.switchOn()
+            button.arcade_button.switchOn()
 
         for player in players:
-            player.arcade.switchOn()
+            player.arcade_button.switchOn()
 
     #alle LEDs aus
     def switchAllLEDsOff(self):
         bigButton.switchOff()
 
         for player in players:
-            player.arcade.switchOff()
+            player.arcade_button.switchOff()
 
     #LED-Animation
     def LEDAnimation(self):
@@ -78,7 +78,7 @@ class GameTable(object):
         if gpio == 9:
             return 9
         else:
-            return next((x for x in self.players if x.arcade.button == gpio), None)
+            return next((x for x in self.players if x.arcade_button.button == gpio), None)
 
     def mode1(self):
         scrollText("DAS KLAPPT LEIDER NOCH NICHT")
