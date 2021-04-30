@@ -31,10 +31,11 @@ class GameTable(object):
 
     #bigButton wurde gedrückt
     def bigButtonPushed(self):
-        button = self
+        self.big_button.switchOn()
+        """ button = self
         argument = [gameTable.status, button]
         bigSwitcher(argument)
-
+ """
     #alle LEDs an
     def switchAllLEDsOn(self):
         for button in gameTable:
