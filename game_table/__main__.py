@@ -16,5 +16,5 @@ app.add_url_rule('/test2', view_func=test2)
 if __name__ == '__main__':
 
     initialize_game()
-    app.run(use_reloader=True)
+    app.run(host='0.0.0.0', port= 8090, use_reloader=True)
 
