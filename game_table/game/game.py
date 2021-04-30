@@ -46,7 +46,7 @@ def initialize_game():
 
     for player in players:
 
-        GPIO.add_event_detect(player.arcade.button, GPIO.FALLING, callback=lambda x: buttonCallback(x, gameTable.getPlayerByGpio(x)), bouncetime=200)
+        GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: buttonCallback(x, gameTable.getPlayerByGpio(x)), bouncetime=200)
 
     print("Finished game initialization. \nReady to play!")
 
