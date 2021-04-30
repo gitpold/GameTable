@@ -55,7 +55,12 @@ def initialize_game():
 #Button Callback
 def buttonCallback(channel, player): #button entspricht der Objektnummer in der Liste und wurde bei #Button Detect übergeben
     global gameTable
-    if player == 9:
+
+    print("test   ", player)
+
+    gameTable.bigButtonPushed()
+
+    if player.number == 9:
         gameTable.bigButtonPushed()
     else:
         player.buttonWasPushed(player.number) #die Funktion WasPushed für das entsprechende Objekt wird aufgerufen
