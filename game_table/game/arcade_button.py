@@ -13,6 +13,7 @@ class ArcadeButton(object):
     #LED an
     def switchOn(self):
         GPIO.output(self.led,GPIO.HIGH)
+        print("Test big button: ", self.led)
 
     #LED aus
     def switchOff(self):
