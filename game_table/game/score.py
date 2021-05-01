@@ -5,6 +5,12 @@ class Score(object):
         self.points = points
         self.lives = lives
 
+    def get_all(self):
+        return {
+            'points': self.points,
+            'lives': self.lives
+        }
+
     def ClearPoints(self):
         self.points = 0
 

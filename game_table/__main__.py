@@ -2,15 +2,12 @@
 from flask import Flask
 
 from game_table.game.game import initialize_game
-from game_table.rest.api import index, other, test, test2
+from game_table.rest.api import game_table_api
 
 
 app = Flask(__name__)
 
-app.add_url_rule('/', view_func=index)
-app.add_url_rule('/other', view_func=other)
-app.add_url_rule('/test', view_func=test)
-app.add_url_rule('/test2', view_func=test2)
+app.register_blueprint(game_table_api, url_prefix='/api')
 
 
 if __name__ == '__main__':

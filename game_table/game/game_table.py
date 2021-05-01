@@ -17,6 +17,24 @@ class GameTable(object):
         self.big_button = big_button
         self.status = "Auswahl"
 
+    def get_all(self):
+        return {
+            'players': map(Player.get_all, self.players), 
+            'big_button': self.big_button.get_all(),
+            'status': self.status,
+        }
+
+    def get_players(self):
+        return map(Player.get_all, self.players)
+
+    def get_active_players(self):
+        return filter(Player.is_active, map(Player.get_all, self.players))
+
+    def get_player(self, id):
+        return next(filter(lambda player: player.number == id, self.players)).get_all()
+
+    
+
 
     def test2(self, players, activeplayers, bigButton, status, score, round):
         self.players = players

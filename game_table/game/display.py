@@ -6,6 +6,9 @@ class Display(object):
         self.start = start
         self.end = end
 
+    def get_all(self):
+        return { 'text': self.seg.text[self.start:self.end]}
+
     #Methode, um den Text des eigenen Displays zu ändern
     def changeMyDisplay(self, text):
         self.seg.text[self.start:self.end] = text

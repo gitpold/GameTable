@@ -23,7 +23,7 @@ def initialize_game():
 
     # init seven segment displays
     serial = spi(port=0, device=0, gpio=noop())
-    device = max7219(serial, cascaded=8) #cascaded entspricht die Anzahl der Anzeigen
+    device = max7219(serial, cascaded=8) #cascaded entspricht der Anzahl der Anzeigen
     seg = sevensegment(device)
     seg.text = "                                                                "
     device.contrast(255)
@@ -45,7 +45,6 @@ def initialize_game():
 
 
     for player in players:
-
         GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: buttonCallback(x, gameTable.getPlayerByGpio(x)), bouncetime=200)
 
     print("Finished game initialization. \nReady to play!")
