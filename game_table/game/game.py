@@ -46,7 +46,7 @@ def initialize_game():
     GPIO.add_event_detect(big_button.button, GPIO.FALLING, callback=big_button_callback)
 
     for player in players:
-        GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: player_button_callback(x, game_table.get_player_by_gpio(x)), bouncetime=200)
+        GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: player_button_callback(x, game_table.get_player_by_gpio(x).get_number()), bouncetime=200)
 
     print("Finished game initialization. \nReady to play!")
 
@@ -57,9 +57,9 @@ def big_button_callback(channel):
 
 
 #Button Callback
-def player_button_callback(channel, player): #button entspricht der Objektnummer in der Liste und wurde bei #Button Detect übergeben
+def player_button_callback(channel, player_number): #button entspricht der Objektnummer in der Liste und wurde bei #Button Detect übergeben
     global game_table
-    game_table.player_button_pressed(player.get_number)
+    game_table.player_button_pressed(player_number)
 
 
 def get_game_table():

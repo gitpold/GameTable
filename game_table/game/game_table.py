@@ -38,12 +38,22 @@ class GameTable(object):
     def get_player_by_gpio(self, gpio):
         return next((x for x in self.players if x.arcade_button.button == gpio), None)
 
+    def get_player_by_number(self, number):
+        return next((x for x in self.players if x.number == number), None)
+
 
     def big_button_pressed(self):
 
         # TODO
 
         self.big_button.toggle()
+
+    
+    def player_button_pressed(self, number):
+
+        # TODO
+
+        self.get_player_by_number(number).arcade_button.toggle()
 
 
     def test2(self, players, activeplayers, bigButton, status, score, round):
