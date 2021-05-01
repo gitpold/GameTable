@@ -10,10 +10,9 @@ class ArcadeButton(object):
         GPIO.setup(self.led,GPIO.OUT) #Pin der LED als Output setzen
         GPIO.setup(button,GPIO.IN, pull_up_down=GPIO.PUD_UP) #Pin des Buttons als Input setzen
 
-        self.setState(False)
+        self.set_led(False)
 
-    def setState(self, state):
-        print("Set Big Button to: ", state)
+    def set_led(self, state):
         if state:
             GPIO.output(self.led, GPIO.HIGH)
         else:
@@ -24,8 +23,12 @@ class ArcadeButton(object):
 
     #LED an
     def switch_on(self):
-        self.setState(True)
+        self.set_led(True)
 
     #LED aus
     def switch_off(self):
-        self.setState(False)  
+        self.set_led(False)
+
+    def toggle(self):
+        self.state = not self.state
+        self.set_led(self.state)

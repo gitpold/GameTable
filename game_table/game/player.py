@@ -14,6 +14,9 @@ class Player(object):
     def is_active(self):
         return self.active
 
+    def get_number(self):
+        return self.number
+
     def get_all(self):
         return {
             'number': self.number,

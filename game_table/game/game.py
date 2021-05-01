@@ -11,7 +11,7 @@ from luma.core.virtual import viewport, sevensegment
 
 import RPi.GPIO as GPIO
 
-gameTable = None
+game_table = None
 
 def initialize_game():
 
@@ -40,31 +40,28 @@ def initialize_game():
 
     big_button = ArcadeButton(BIG_BUTTON['led'], BIG_BUTTON['button'])
 
-    global gameTable
-    gameTable = GameTable(players, big_button, seg)
+    global game_table
+    game_table = GameTable(players, big_button, seg)
 
+    GPIO.add_event_detect(big_button.button, GPIO.FALLING, callback=big_button_callback)
 
     for player in players:
-        GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: buttonCallback(x, gameTable.getPlayerByGpio(x)), bouncetime=200)
+        GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: player_button_callback(x, game_table.get_player_by_gpio(x)), bouncetime=200)
 
     print("Finished game initialization. \nReady to play!")
 
 
+def big_button_callback(channel): 
+    global game_table
+    game_table.big_button_pressed()
+
 
 #Button Callback
-def buttonCallback(channel, player): #button entspricht der Objektnummer in der Liste und wurde bei #Button Detect übergeben
-    global gameTable
-
-    print("test   ", player)
-
-    gameTable.bigButtonPushed()
-
-    if player.number == 9:
-        gameTable.bigButtonPushed()
-    else:
-        player.buttonWasPushed(player.number) #die Funktion WasPushed für das entsprechende Objekt wird aufgerufen
+def player_button_callback(channel, player): #button entspricht der Objektnummer in der Liste und wurde bei #Button Detect übergeben
+    global game_table
+    game_table.player_button_pressed(player.get_number)
 
 
 def get_game_table():
-    global gameTable
-    return gameTable
+    global game_table
+    return game_table

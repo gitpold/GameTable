@@ -17,23 +17,33 @@ class GameTable(object):
         self.big_button = big_button
         self.status = "Auswahl"
 
+
     def get_all(self):
         return {
-            'players': map(Player.get_all, self.players), 
+            'players': self.get_players(), 
             'big_button': self.big_button.get_all(),
             'status': self.status,
         }
 
     def get_players(self):
-        return map(Player.get_all, self.players)
+        return list(map(Player.get_all, self.players))
 
     def get_active_players(self):
-        return filter(Player.is_active, map(Player.get_all, self.players))
+        return list(map(Player.get_all, filter(Player.is_active, self.players)))
 
     def get_player(self, id):
-        return next(filter(lambda player: player.number == id, self.players)).get_all()
+        return next(filter(lambda player: player.get_number() == int(id), self.players)).get_all()
 
-    
+
+    def get_player_by_gpio(self, gpio):
+        return next((x for x in self.players if x.arcade_button.button == gpio), None)
+
+
+    def big_button_pressed(self):
+
+        # TODO
+
+        self.big_button.toggle()
 
 
     def test2(self, players, activeplayers, bigButton, status, score, round):
@@ -93,11 +103,7 @@ class GameTable(object):
     def changeStatus(self,status):
         self.status = status
 
-    def getPlayerByGpio(self, gpio):
-        if gpio == 9:
-            return 9
-        else:
-            return next((x for x in self.players if x.arcade_button.button == gpio), None)
+
 
     def mode1(self):
         scrollText("DAS KLAPPT LEIDER NOCH NICHT")
