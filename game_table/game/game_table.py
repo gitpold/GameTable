@@ -106,7 +106,7 @@ class GameTable(object):
                 print("GAME_PLAYING")
 
         elif self.status == 'GAME_OVER':
-            self.status == 'PLAYER_SELECTION'
+            self.status = 'PLAYER_SELECTION'
             self.clear_all()
             for player in filter(Player.is_active, self.players):
                 player.toggle_active()
