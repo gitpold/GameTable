@@ -74,7 +74,7 @@ class GameTable(object):
 
         active_players.sort(key=lambda player: player.counter)
 
-        active_players[0].display.switch_on()
+        active_players[0].arcade_button.switch_on()
 
 
         self.status = 'GAME_OVER'
