@@ -135,8 +135,10 @@ class GameTable(object):
         elif self.status == 'GAME_MODE_SELECTION':
             if number == 1:
                 self.mode = 'GAME_1'
+                self.players[0].arcade_button.switch_on()
                 print(self.mode)
             else:
+                self.players[0].arcade_button.switch_off()
                 self.mode = None
 
             if self.mode != None:
