@@ -45,20 +45,29 @@ class GameTable(object):
         return next((x for x in self.players if x.number == number), None)
 
 
-    def set_all_buttons_off(self):
+    def clear_all(self):
         for player in self.players:
             player.arcade_button.switch_off()
+            player.display.set_text('        ')
 
 
     def start_game(self):
 
         if self.mode == 'GAME_1':
+
+            for player in filter(Player.is_active, self.players):
+                player.clear_counter()
+                player.display.set_text(player.counter)
+
             x = threading.Thread(target=self.thread_function, args=(1,))
             x.start()
 
 
     def thread_function(self, test):
         print("thread started")
+
+        
+
         time.sleep(10)
         self.status = 'GAME_OVER'
         print("thread ended")
@@ -69,13 +78,13 @@ class GameTable(object):
         if self.status == 'PLAYER_SELECTION':
             if len(self.get_active_players()) > 0:
                 self.status = 'GAME_MODE_SELECTION'
-                self.set_all_buttons_off()
+                self.clear_all()
                 print("GAME_MODE_SELECTION")
 
         elif self.status == 'GAME_MODE_SELECTION':
             if self.mode != None:
                 self.status = 'GAME_PLAYING'
-                self.set_all_buttons_off()
+                self.clear_all()
                 self.start_game()
                 print("GAME_PLAYING")
 
