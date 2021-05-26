@@ -29,6 +29,7 @@ class Player(object):
 
     def set_active(self, active):
         self.active = active
+        print("player " + self.number + ": " + self.active)
         if active:
             self.arcade_button.switch_on()
         else:

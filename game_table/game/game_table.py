@@ -53,8 +53,10 @@ class GameTable(object):
 
 
     def thread_function(self, test):
+        print("thread started")
         time.sleep(10)
         self.status = 'GAME_OVER'
+        print("thread ended")
 
 
     def big_button_pressed(self):
@@ -62,14 +64,17 @@ class GameTable(object):
         if self.status == 'PLAYER_SELECTION':
             if len(self.get_active_players()) > 0:
                 self.status = 'GAME_MODE_SELECTION'
+                print("GAME_MODE_SELECTION")
 
         elif self.status == 'GAME_MODE_SELECTION':
             if self.mode != None:
                 self.status = 'GAME_PLAYING'
                 self.start_game()
+                print("GAME_PLAYING")
 
         elif self.status == 'GAME_OVER':
             self.status == 'PLAYER_SELECTION'
+            print("PLAYER_SELECTION")
 
         self.big_button.switch_off()
 
