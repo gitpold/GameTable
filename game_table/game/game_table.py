@@ -46,7 +46,7 @@ class GameTable(object):
 
 
     def set_all_buttons_off(self):
-        for player in self.get_players():
+        for player in self.players:
             player.arcade_button.switch_off()
 
 
