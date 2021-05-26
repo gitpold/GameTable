@@ -86,6 +86,9 @@ class GameTable(object):
 
         self.players[0].display.set_text('GAME 1')
 
+        if self.mode == 'GAME_1':
+            self.players[0].arcade_button.switch_on()
+
         print("GAME_MODE_SELECTION")
 
         self.status = 'GAME_MODE_SELECTION'
