@@ -69,6 +69,14 @@ class GameTable(object):
         
 
         time.sleep(10)
+
+        active_players = list(filter(Player.is_active, self.players))
+
+        active_players.sort(key=counter)
+
+        active_players[0].display.switch_on()
+
+
         self.status = 'GAME_OVER'
         print("thread ended")
 
