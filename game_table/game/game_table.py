@@ -72,7 +72,7 @@ class GameTable(object):
 
         active_players = list(filter(Player.is_active, self.players))
 
-        active_players.sort(key=counter)
+        active_players.sort(key=lambda player: player.counter)
 
         active_players[0].display.switch_on()
 
