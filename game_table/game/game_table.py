@@ -45,6 +45,11 @@ class GameTable(object):
         return next((x for x in self.players if x.number == number), None)
 
 
+    def set_all_buttons_off(self):
+        for player in self.get_players():
+            player.arcade_button.switch_off()
+
+
     def start_game(self):
 
         if self.mode == 'GAME_1':
@@ -64,16 +69,19 @@ class GameTable(object):
         if self.status == 'PLAYER_SELECTION':
             if len(self.get_active_players()) > 0:
                 self.status = 'GAME_MODE_SELECTION'
+                self.set_all_buttons_off()
                 print("GAME_MODE_SELECTION")
 
         elif self.status == 'GAME_MODE_SELECTION':
             if self.mode != None:
                 self.status = 'GAME_PLAYING'
+                self.set_all_buttons_off()
                 self.start_game()
                 print("GAME_PLAYING")
 
         elif self.status == 'GAME_OVER':
             self.status == 'PLAYER_SELECTION'
+            self.set_all_buttons_off()
             print("PLAYER_SELECTION")
 
         self.big_button.switch_off()
@@ -94,6 +102,7 @@ class GameTable(object):
         elif self.status == 'GAME_MODE_SELECTION':
             if number == 1:
                 self.mode = 'GAME_1'
+                print(self.mode)
             else:
                 self.mode = None
 
