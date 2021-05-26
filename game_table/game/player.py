@@ -10,6 +10,7 @@ class Player(object):
         self.arcade_button = arcade_button
         self.display = display
         self.score = score
+        self.counter = 0
 
     def is_active(self):
         return self.active
@@ -25,6 +26,22 @@ class Player(object):
             'display': self.display.get_all(),
             'score': self.score.get_all()
         }
+
+    def set_active(self, active):
+        self.active = active
+        if active:
+            self.arcade_button.switch_on()
+        else:
+            self.arcade_button.switch_off()
+
+    def toggle_active(self):
+        self.set_active(not self.active)
+
+    def clear_counter(self):
+        self.counter = 0
+
+    def increase_counter(self):
+        self.counter += 1
 
     #wird ein Button gedrückt, passiert folgendes
     def buttonWasPushed(self, player_number): 

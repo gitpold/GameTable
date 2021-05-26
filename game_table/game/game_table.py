@@ -4,6 +4,7 @@ import RPi.GPIO as GPIO
 
 import time
 import random
+import threading
 
 from .player import Player
 from .arcade_button import ArcadeButton
@@ -15,7 +16,9 @@ class GameTable(object):
     def __init__(self, players, big_button, seg):
         self.players = players
         self.big_button = big_button
-        self.status = "Auswahl"
+        self.status = 'PLAYER_SELECTION' # available stati: PLAYER_SELECTION, GAME_MODE_SELECTION, GAME_PLAYING, GAME_OVER 
+        self.mode = None 
+        self.seg = seg
 
 
     def get_all(self):
@@ -42,38 +45,75 @@ class GameTable(object):
         return next((x for x in self.players if x.number == number), None)
 
 
+    def start_game(self):
+
+        if self.mode == 'GAME_1':
+            x = threading.Thread(target=self.thread_function, args=(1,))
+            x.start()
+
+
+    def thread_function(self, test):
+        time.sleep(10)
+        self.status = 'GAME_OVER'
+
+
     def big_button_pressed(self):
 
-        # TODO
+        if self.status == 'PLAYER_SELECTION':
+            if len(self.get_active_players()) > 0:
+                self.status = 'GAME_MODE_SELECTION'
 
-        self.big_button.toggle()
+        elif self.status == 'GAME_MODE_SELECTION':
+            if self.mode != None:
+                self.status = 'GAME_PLAYING'
+                self.start_game()
+
+        elif self.status == 'GAME_OVER':
+            self.status == 'PLAYER_SELECTION'
+
+        self.big_button.switch_off()
+
+        # TODO
 
     
     def player_button_pressed(self, number):
 
+        if self.status == 'PLAYER_SELECTION':
+            self.get_player_by_number(number).toggle_active()
+
+            if len(self.get_active_players()) > 0:
+                self.big_button.switch_on()
+            else:
+                self.big_button.switch_off()
+
+        elif self.status == 'GAME_MODE_SELECTION':
+            if number == 1:
+                self.mode = 'GAME_1'
+            else:
+                self.mode = None
+
+            if self.mode != None:
+                self.big_button.switch_on()
+            else:
+                self.big_button.switch_off()
+
+
+        elif self.status == 'GAME_PLAYING':
+        
+            if self.mode == 'GAME_1':
+                self.game_1_click(number)
+
         # TODO
 
-        self.get_player_by_number(number).arcade_button.toggle()
+
+    def game_1_click(self, number):
+        print("test " + number)
+
+        player = self.get_player_by_number(number)
+        player.increase_counter()
+        player.display.set_text(player.counter)
 
 
-    def test2(self, players, activeplayers, bigButton, status, score, round):
-        self.players = players
-        self.activeplayers = activeplayers
-        self.bigButton = bigButton
-        self.status = status #der Status im Spiel, bspw. Modus 1, Modus 2, etc.
-        self.score = score
-        self.round = round
-
-    def get_test(self):
-        return "test"
-
-    #bigButton wurde gedrückt
-    def bigButtonPushed(self):
-        self.big_button.switchOn()
-        """ button = self
-        argument = [gameTable.status, button]
-        bigSwitcher(argument)
- """
     #alle LEDs an
     def switchAllLEDsOn(self):
         for button in gameTable:
