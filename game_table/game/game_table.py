@@ -121,7 +121,7 @@ class GameTable(object):
 
 
     def game_1_click(self, number):
-        print("test " + number)
+        print("test " + str(number))
 
         player = self.get_player_by_number(number)
         player.increase_counter()
