@@ -10,7 +10,7 @@ class Display(object):
         return { 'text': self.seg.text[self.start:self.end]}
 
     def set_text(self, text):
-        text_padded = text.rjust(8, ' ')
+        text_padded = str(text).rjust(8, ' ')
         self.seg.text[self.start:self.end] = text_padded
 
     #Methode, um den Text des eigenen Displays zu ändern
