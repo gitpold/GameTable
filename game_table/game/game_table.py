@@ -72,7 +72,7 @@ class GameTable(object):
 
         active_players = list(filter(Player.is_active, self.players))
 
-        active_players.sort(key=lambda player: player.counter)
+        active_players.sort(key=lambda player: player.counter, reverse=True)
 
         active_players[0].arcade_button.switch_on()
 
@@ -81,13 +81,22 @@ class GameTable(object):
         print("thread ended")
 
 
+    def set_game_mode_selection(self):
+        self.clear_all()
+
+        next(filter(lambda player: player.get_number() == int(id), self.players)).display.set_text('GAME 1')
+
+        print("GAME_MODE_SELECTION")
+
+        self.status = 'GAME_MODE_SELECTION'
+
+
+
     def big_button_pressed(self):
 
         if self.status == 'PLAYER_SELECTION':
             if len(self.get_active_players()) > 0:
-                self.status = 'GAME_MODE_SELECTION'
-                self.clear_all()
-                print("GAME_MODE_SELECTION")
+                self.set_game_mode_selection()
 
         elif self.status == 'GAME_MODE_SELECTION':
             if self.mode != None:
@@ -98,7 +107,11 @@ class GameTable(object):
 
         elif self.status == 'GAME_OVER':
             self.status == 'PLAYER_SELECTION'
-            self.set_all_buttons_off()
+            self.clear_all()
+            for player in filter(Player.is_active, self.players):
+                player.toggle_active()
+                player.toggle_active()
+
             print("PLAYER_SELECTION")
 
         self.big_button.switch_off()
