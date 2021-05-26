@@ -84,7 +84,7 @@ class GameTable(object):
     def set_game_mode_selection(self):
         self.clear_all()
 
-        next(filter(lambda player: player.get_number() == int(id), self.players)).display.set_text('GAME 1')
+        self.players[0].display.set_text('GAME 1')
 
         print("GAME_MODE_SELECTION")
 
