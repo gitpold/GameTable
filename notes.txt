@@ -1,0 +1,9 @@
+
+
+game modes:
+
+- Game 1: press as much as possible
+- Game 2: ping pong (x seconds time to press)
+- first to press x times wins
+- estimate 30 seconds
+- pass "bomb" around

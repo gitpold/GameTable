@@ -19,6 +19,7 @@ class GameTable(object):
         self.status = 'PLAYER_SELECTION' # available stati: PLAYER_SELECTION, GAME_MODE_SELECTION, GAME_PLAYING, GAME_OVER 
         self.mode = None 
         self.seg = seg
+        self.timer = None
 
 
     def get_all(self):
@@ -59,14 +60,19 @@ class GameTable(object):
                 player.clear_counter()
                 player.display.set_text(player.counter)
 
-            x = threading.Thread(target=self.thread_function, args=(1,))
-            x.start()
+            gameThread = threading.Thread(target=self.game_1_thread, args=(1,))
+            gameThread.start()
+
+        elif self.mode == 'GAME_2':
+
+            for player in filter(Player.is_active, self.players):
+                player.clear_counter()
+
+            self.timer = threading.Timer(1.0, self.game_2_over)
+            self.timer.start()
 
 
-    def thread_function(self, test):
-        print("thread started")
-
-        
+    def game_1_thread(self):
 
         time.sleep(10)
 
@@ -78,7 +84,15 @@ class GameTable(object):
 
 
         self.status = 'GAME_OVER'
-        print("thread ended")
+
+
+
+    def game_2_over(self):
+
+        self.status = 'GAME_OVER'
+
+
+
 
 
     def set_game_mode_selection(self):
@@ -152,6 +166,9 @@ class GameTable(object):
             if self.mode == 'GAME_1':
                 self.game_1_click(number)
 
+            elif self.mode == 'GAME_2':
+                self.game_2_click(number)
+
         # TODO
 
 
@@ -161,6 +178,27 @@ class GameTable(object):
         player = self.get_player_by_number(number)
         player.increase_counter()
         player.display.set_text(player.counter)
+
+    def game_2_click(self, number):
+        print("game 2")
+
+        self.timer.cancel()
+        self.timer = threading.Timer(1.0, self.game_2_over)
+        self.timer.start()
+
+        player = self.get_player_by_number(number)
+        player.arcade_button.switch_off()
+
+        active_players = list(filter(Player.is_active, self.players))
+
+        active_players.remove(player)
+
+        new_player = random.choice(active_players)
+
+        new_player.arcade_button.switch_on()
+
+
+
 
 
     #alle LEDs an
