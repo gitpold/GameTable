@@ -75,6 +75,11 @@ class GameTable(object):
             self.timer = threading.Timer(1.0, self.game_2_over)
             self.timer.start()
 
+            active_players = list(filter(Player.is_active, self.players))
+
+            new_player = random.choice(active_players)
+            new_player.arcade_button.switch_on()
+
 
     def game_1_thread(self):
 
