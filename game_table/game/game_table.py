@@ -1,5 +1,6 @@
 # imports
 
+from hashlib import new
 import RPi.GPIO as GPIO
 
 import time
@@ -22,6 +23,8 @@ class GameTable(object):
         self.timer = None
 
 
+    # getters for rest endpoints
+
     def get_all(self):
         return {
             'players': self.get_players(), 
@@ -39,12 +42,16 @@ class GameTable(object):
         return next(filter(lambda player: player.get_number() == int(id), self.players)).get_all()
 
 
+    # helper getters
+
     def get_player_by_gpio(self, gpio):
         return next((x for x in self.players if x.arcade_button.button == gpio), None)
 
     def get_player_by_number(self, number):
         return next((x for x in self.players if x.number == number), None)
 
+
+    # global clears / animations / etc.
 
     def clear_all(self):
         for player in self.players:
@@ -55,72 +62,12 @@ class GameTable(object):
         for player in self.players:
             player.arcade_button.switch_off()
 
-
-    def start_game(self):
-
-        if self.mode == 'GAME_1':
-
-            for player in filter(Player.is_active, self.players):
-                player.clear_counter()
-                player.display.set_text(player.counter)
-
-            gameThread = threading.Thread(target=self.game_1_thread, args=(1,))
-            gameThread.start()
-
-        elif self.mode == 'GAME_2':
-
-            for player in filter(Player.is_active, self.players):
-                player.clear_counter()
-
-            self.timer = threading.Timer(1.0, self.game_2_over)
-            self.timer.start()
-
-            active_players = list(filter(Player.is_active, self.players))
-
-            new_player = random.choice(active_players)
-            new_player.arcade_button.switch_on()
+    def clear_all_dispalys(self):
+        for player in self.players:
+            player.display.set_text('        ')
 
 
-    def game_1_thread(self):
-
-        time.sleep(10)
-
-        active_players = list(filter(Player.is_active, self.players))
-
-        active_players.sort(key=lambda player: player.counter, reverse=True)
-
-        active_players[0].arcade_button.switch_on()
-
-
-        self.status = 'GAME_OVER'
-
-
-
-    def game_2_over(self):
-
-        self.status = 'GAME_OVER'
-
-
-
-
-
-    def set_game_mode_selection(self):
-        self.clear_all()
-
-        self.players[0].display.set_text('GAME 1')
-        self.players[1].display.set_text('GAME 2')
-
-        if self.mode == 'GAME_1':
-            self.players[0].arcade_button.switch_on()
-
-        if self.mode == 'GAME_2':
-            self.players[1].arcade_button.switch_on()
-
-        print("GAME_MODE_SELECTION")
-
-        self.status = 'GAME_MODE_SELECTION'
-
-
+    # handle big button press
 
     def big_button_pressed(self):
 
@@ -148,6 +95,33 @@ class GameTable(object):
 
         # TODO
 
+
+    # handle game mode selection
+
+    def set_game_mode_selection(self):
+        self.clear_all()
+
+        self.players[0].display.set_text('GAME 1')
+        self.players[1].display.set_text('GAME 2')
+        self.players[2].display.set_text('GAME 3')
+
+
+        if self.mode == 'GAME_1':
+            self.players[0].arcade_button.switch_on()
+
+        if self.mode == 'GAME_2':
+            self.players[1].arcade_button.switch_on()
+
+        if self.mode == 'GAME_3':
+            self.players[2].arcade_button.switch_on()
+
+        print("GAME_MODE_SELECTION")
+
+        self.status = 'GAME_MODE_SELECTION'
+
+
+
+    # handle every button press of a player while selection or while playing
     
     def player_button_pressed(self, number):
 
@@ -170,6 +144,11 @@ class GameTable(object):
                 self.clear_all_buttons()
                 self.players[1].arcade_button.switch_on()
                 print(self.mode)
+            elif number == 3:
+                self.mode = 'GAME_3'
+                self.clear_all_buttons()
+                self.players[2].arcade_button.switch_on()
+                print(self.mode)
             else:
                 self.clear_all_buttons()
                 self.mode = None
@@ -188,8 +167,14 @@ class GameTable(object):
             elif self.mode == 'GAME_2':
                 self.game_2_click(number)
 
+            elif self.mode == 'GAME_3':
+                self.game_3_click(number)
+
         # TODO
 
+
+
+    # helper methods to handle player button presses for each different game mode
 
     def game_1_click(self, number):
         print("test " + str(number))
@@ -210,14 +195,88 @@ class GameTable(object):
 
         active_players = list(filter(Player.is_active, self.players))
 
+        print(active_players)
+
         active_players.remove(player)
 
+        print(active_players)
+
         new_player = random.choice(active_players)
+
+        print(new_player)
 
         new_player.arcade_button.switch_on()
 
 
+    def game_3_click(self, number):
 
+        print("todo")
+
+
+
+    # handle game start
+
+    def start_game(self):
+
+        self.clear_all()
+
+        for player in filter(Player.is_active, self.players):
+            player.clear_counter()
+
+
+        if self.mode == 'GAME_1':
+
+            for player in filter(Player.is_active, self.players):
+                player.display.set_text(player.counter)
+
+            gameThread = threading.Thread(target=self.game_1_thread, args=(1,))
+            gameThread.start()
+
+
+        elif self.mode == 'GAME_2':
+
+            self.timer = threading.Timer(1.0, self.game_2_over)
+            self.timer.start()
+
+            active_players = list(filter(Player.is_active, self.players))
+
+            new_player = random.choice(active_players)
+            new_player.arcade_button.switch_on()
+
+
+        elif self.mode == 'GAME_3':
+
+            print("Not yet implemented")
+
+
+    # needed helper threads and functions for the different games
+
+    def game_1_thread(self):
+
+        time.sleep(10)
+
+        active_players = list(filter(Player.is_active, self.players))
+
+        active_players.sort(key=lambda player: player.counter, reverse=True)
+
+        active_players[0].arcade_button.switch_on()
+
+        self.status = 'GAME_OVER'
+
+
+    def game_2_over(self):
+
+        self.status = 'GAME_OVER'
+
+
+
+
+
+   
+    
+
+
+    # TODO: old, check if still needed
 
 
     #alle LEDs an
