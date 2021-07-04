@@ -51,6 +51,10 @@ class GameTable(object):
             player.arcade_button.switch_off()
             player.display.set_text('        ')
 
+    def clear_all_buttons(self):
+        for player in self.players:
+            player.arcade_button.switch_off()
+
 
     def start_game(self):
 
@@ -99,9 +103,13 @@ class GameTable(object):
         self.clear_all()
 
         self.players[0].display.set_text('GAME 1')
+        self.players[1].display.set_text('GAME 2')
 
         if self.mode == 'GAME_1':
             self.players[0].arcade_button.switch_on()
+
+        if self.mode == 'GAME_2':
+            self.players[1].arcade_button.switch_on()
 
         print("GAME_MODE_SELECTION")
 
@@ -149,10 +157,16 @@ class GameTable(object):
         elif self.status == 'GAME_MODE_SELECTION':
             if number == 1:
                 self.mode = 'GAME_1'
+                self.clear_all_buttons()
                 self.players[0].arcade_button.switch_on()
                 print(self.mode)
+            elif number == 2:
+                self.mode = 'GAME_2'
+                self.clear_all_buttons()
+                self.players[1].arcade_button.switch_on()
+                print(self.mode)
             else:
-                self.players[0].arcade_button.switch_off()
+                self.clear_all_buttons()
                 self.mode = None
 
             if self.mode != None:
