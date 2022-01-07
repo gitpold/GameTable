@@ -104,11 +104,11 @@ class GameTable(object):
         self.players[0].display.set_text('GAME 1')
         self.players[1].display.set_text('GAME 2')
         self.players[2].display.set_text('GAME 3')
-        self.players[2].display.set_text('GAME 4')
-        self.players[2].display.set_text('GAME 5')
-        self.players[2].display.set_text('GAME 6')
-        self.players[2].display.set_text('GAME 7')
-        self.players[2].display.set_text('GAME 8')
+        self.players[3].display.set_text('GAME 4')
+        self.players[4].display.set_text('GAME 5')
+        self.players[5].display.set_text('GAME 6')
+        self.players[6].display.set_text('GAME 7')
+        self.players[7].display.set_text('GAME 8')
 
 
         if self.mode == 'GAME_1':
@@ -304,7 +304,7 @@ class GameTable(object):
             for player in filter(Player.is_active, self.players):
                 player.display.set_text(player.counter)
 
-            gameThread = threading.Thread(target=self.game_1_thread, args=(1,))
+            gameThread = threading.Thread(target=self.game_1_thread, args=())
             gameThread.start()
 
 
