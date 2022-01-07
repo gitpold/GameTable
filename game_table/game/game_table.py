@@ -62,7 +62,7 @@ class GameTable(object):
         for player in self.players:
             player.arcade_button.switch_off()
 
-    def clear_all_dispalys(self):
+    def clear_all_displays(self):
         for player in self.players:
             player.display.set_text('        ')
 
@@ -104,6 +104,11 @@ class GameTable(object):
         self.players[0].display.set_text('GAME 1')
         self.players[1].display.set_text('GAME 2')
         self.players[2].display.set_text('GAME 3')
+        self.players[2].display.set_text('GAME 4')
+        self.players[2].display.set_text('GAME 5')
+        self.players[2].display.set_text('GAME 6')
+        self.players[2].display.set_text('GAME 7')
+        self.players[2].display.set_text('GAME 8')
 
 
         if self.mode == 'GAME_1':
@@ -114,6 +119,21 @@ class GameTable(object):
 
         if self.mode == 'GAME_3':
             self.players[2].arcade_button.switch_on()
+
+        if self.mode == 'GAME_4':
+            self.players[3].arcade_button.switch_on()
+
+        if self.mode == 'GAME_5':
+            self.players[4].arcade_button.switch_on()
+
+        if self.mode == 'GAME_6':
+            self.players[5].arcade_button.switch_on()
+
+        if self.mode == 'GAME_7':
+            self.players[6].arcade_button.switch_on()
+
+        if self.mode == 'GAME_8':
+            self.players[7].arcade_button.switch_on()
 
         print("GAME_MODE_SELECTION")
 
@@ -134,24 +154,37 @@ class GameTable(object):
                 self.big_button.switch_off()
 
         elif self.status == 'GAME_MODE_SELECTION':
+
+            self.clear_all_buttons()
+
             if number == 1:
                 self.mode = 'GAME_1'
-                self.clear_all_buttons()
                 self.players[0].arcade_button.switch_on()
-                print(self.mode)
             elif number == 2:
                 self.mode = 'GAME_2'
-                self.clear_all_buttons()
                 self.players[1].arcade_button.switch_on()
-                print(self.mode)
             elif number == 3:
                 self.mode = 'GAME_3'
-                self.clear_all_buttons()
                 self.players[2].arcade_button.switch_on()
-                print(self.mode)
+            elif number == 4:
+                self.mode = 'GAME_4'
+                self.players[3].arcade_button.switch_on()
+            elif number == 5:
+                self.mode = 'GAME_5'
+                self.players[4].arcade_button.switch_on()
+            elif number == 6:
+                self.mode = 'GAME_6'
+                self.players[5].arcade_button.switch_on()
+            elif number == 7:
+                self.mode = 'GAME_7'
+                self.players[6].arcade_button.switch_on()
+            elif number == 8:
+                self.mode = 'GAME_8'
+                self.players[7].arcade_button.switch_on()
             else:
-                self.clear_all_buttons()
                 self.mode = None
+
+            print(self.mode)
 
             if self.mode != None:
                 self.big_button.switch_on()
@@ -170,7 +203,25 @@ class GameTable(object):
             elif self.mode == 'GAME_3':
                 self.game_3_click(number)
 
-        # TODO
+            elif self.mode == 'GAME_4':
+                print("todo")
+                # TODO
+        
+            elif self.mode == 'GAME_5':
+                print("todo")
+                # TODO
+            
+            elif self.mode == 'GAME_6':
+                print("todo")
+                # TODO
+            
+            elif self.mode == 'GAME_7':
+                print("todo")
+                # TODO
+            
+            elif self.mode == 'GAME_8':
+                print("todo")
+                # TODO
 
 
 
@@ -182,6 +233,7 @@ class GameTable(object):
         player = self.get_player_by_number(number)
         player.increase_counter()
         player.display.set_text(player.counter)
+
 
     def game_2_click(self, number):
         print("game 2")
@@ -209,7 +261,26 @@ class GameTable(object):
 
 
     def game_3_click(self, number):
+        print("todo")
 
+    
+    def game_4_click(self, number):
+        print("todo")
+
+    
+    def game_5_click(self, number):
+        print("todo")
+
+    
+    def game_6_click(self, number):
+        print("todo")
+
+    
+    def game_7_click(self, number):
+        print("todo")
+
+    
+    def game_8_click(self, number):
         print("todo")
 
 
@@ -224,6 +295,10 @@ class GameTable(object):
             player.clear_counter()
 
 
+        # GAME 1: 
+        #
+        # every player is pressing his button as often as possible in 10 seconds, player wiht the highest count wins
+        #
         if self.mode == 'GAME_1':
 
             for player in filter(Player.is_active, self.players):
@@ -233,6 +308,10 @@ class GameTable(object):
             gameThread.start()
 
 
+        # GAME 2:
+        #
+        # todo
+        #
         elif self.mode == 'GAME_2':
 
             self.timer = threading.Timer(1.0, self.game_2_over)
@@ -243,10 +322,54 @@ class GameTable(object):
             new_player = random.choice(active_players)
             new_player.arcade_button.switch_on()
 
-
+        # GAME 3:
+        #
+        #
+        #
         elif self.mode == 'GAME_3':
 
             print("Not yet implemented")
+
+        # GAME 4:
+        #
+        #
+        #
+        elif self.mode == 'GAME_4':
+
+            print("Not yet implemented")
+
+        # GAME 5:
+        #
+        #
+        #
+        elif self.mode == 'GAME_5':
+
+            print("Not yet implemented")
+
+        # GAME 6:
+        #
+        #
+        #  
+        elif self.mode == 'GAME_6':
+
+            print("Not yet implemented")
+
+        # GAME 7:
+        #
+        #
+        #
+        elif self.mode == 'GAME_7':
+
+            print("Not yet implemented")
+
+        # GAME 8:
+        #
+        #
+        #
+        elif self.mode == 'GAME_8':
+
+            print("Not yet implemented")
+
 
 
     # needed helper threads and functions for the different games
@@ -268,57 +391,3 @@ class GameTable(object):
 
         self.status = 'GAME_OVER'
 
-
-
-
-
-   
-    
-
-
-    # TODO: old, check if still needed
-
-
-    #alle LEDs an
-    def switchAllLEDsOn(self):
-        for button in gameTable:
-            button.arcade_button.switchOn()
-
-        for player in players:
-            player.arcade_button.switchOn()
-
-    #alle LEDs aus
-    def switchAllLEDsOff(self):
-        bigButton.switchOff()
-
-        for player in players:
-            player.arcade_button.switchOff()
-
-    #LED-Animation
-    def LEDAnimation(self):
-        pass
-
-    #Funktion, auf allen Displays dasselbe anzuzeigen
-    def changeAllDisplays(self, text):
-        seg.text = text * 8
-
-    #Spieler zur Liste der aktiven Spieler hinzufügen
-    def appendActivePlayer(self,player):
-        self.activeplayers.append(player)
-
-    #Spieler von der Liste der aktiven Speler entfernen
-    def removeActivePlayer(self,player):
-        self.activeplayers.remove(player)
-
-    #Liste der aktiven Spieler clearen
-    def clearActivePlayers(self):
-        self.activeplayers.clear()
-
-    #aktuellen Spielstatus ändern
-    def changeStatus(self,status):
-        self.status = status
-
-
-
-    def mode1(self):
-        scrollText("DAS KLAPPT LEIDER NOCH NICHT")
