@@ -21,7 +21,6 @@ class GameTable(object):
         self.players = players
         self.big_button = big_button
         self.state = GAME_STATE.PLAYER_SELECTION # available stati: PLAYER_SELECTION, GAME_MODE_SELECTION, GAME_PLAYING, GAME_OVER
-        print("Game state:", GAME_STATE.PLAYER_SELECTION.name)
         self.mode = None 
         self.seg = seg
         self.timer = None
@@ -143,21 +142,27 @@ class GameTable(object):
         # if current state is GAME_MODE_SELECTION
         elif self.state == GAME_STATE.GAME_MODE_SELECTION:
 
-            self.clear_all_buttons()
+            if self.mode != GAME_MODE(number - 1):
 
-            if number >= 1 and number <= 8:         
-                # valid game mode selected
-                self.set_game_mode(GAME_MODE(number - 1))
-                self.players[number - 1].arcade_button.switch_on()
-                self.big_button.switch_on()
-                
-            else:
-                # no valid game mode selected
-                self.set_game_mode(None)                           
-                self.big_button.switch_off()
+                self.clear_all_buttons()
+
+                if number >= 1 and number <= 8:         
+                    # valid game mode selected
+                    self.set_game_mode(GAME_MODE(number - 1))
+                    self.players[number - 1].arcade_button.switch_on()
+                    self.big_button.switch_on()
+                    
+                else:
+                    # no valid game mode selected
+                    self.set_game_mode(None)                           
+                    self.big_button.switch_off()
 
         # if current state is GAME_PLAYING
         elif self.state == GAME_STATE.GAME_PLAYING:
+
+            # todo
+            # add check to only listen on button presses of active players
+
         
             if self.mode == GAME_MODE.GAME_1:
                 self.game_1_click(number)
@@ -193,7 +198,6 @@ class GameTable(object):
     # helper methods to handle player button presses for each different game mode
 
     def game_1_click(self, number):
-        print("test " + str(number))
 
         player = self.get_player_by_number(number)
         player.increase_counter()
@@ -256,7 +260,7 @@ class GameTable(object):
 
         self.clear_all()
 
-        for player in filter(Player.is_active, self.players):
+        for player in self.players:
             player.clear_counter()
 
 
@@ -348,6 +352,8 @@ class GameTable(object):
         active_players.sort(key=lambda player: player.counter, reverse=True)
 
         active_players[0].arcade_button.switch_on()
+
+        print("Player ", active_players[0].get_number(), "wins!")
 
         self.set_game_state(GAME_STATE.GAME_OVER)
 

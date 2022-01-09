@@ -14,8 +14,8 @@ game modes:
 
 todo:
 
-- big button should already be on if there are already player slected (from last game)
-- same if already the previous game is pre selected
 
 - check bounce time? (button events seem to get triggered multiple times)
     - maybe increase bounce time of big button only?
+
+- add a cleanup script to disable all buttons when game is ending/stopped

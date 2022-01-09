@@ -4,6 +4,7 @@ from .player import Player
 from .display import Display
 from .score import Score
 from ..config.config import PLAYERS, BIG_BUTTON
+from .constants import GAME_STATE
 
 from luma.led_matrix.device import max7219
 from luma.core.interface.serial import spi, noop
@@ -49,6 +50,7 @@ def initialize_game():
         GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: player_button_callback(x, game_table.get_player_by_gpio(x).get_number()), bouncetime=200)
 
     print("Finished game initialization. \nReady to play!")
+    print("Game state:", GAME_STATE.PLAYER_SELECTION.name)
 
 
 def big_button_callback(channel): 
