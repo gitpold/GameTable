@@ -20,7 +20,8 @@ class GameTable(object):
     def __init__(self, players, big_button, seg):
         self.players = players
         self.big_button = big_button
-        self.state = GAME_STATE.PLAYER_SELECTION # available stati: PLAYER_SELECTION, GAME_MODE_SELECTION, GAME_PLAYING, GAME_OVER 
+        self.state = GAME_STATE.PLAYER_SELECTION # available stati: PLAYER_SELECTION, GAME_MODE_SELECTION, GAME_PLAYING, GAME_OVER
+        print("Game state:", GAME_STATE.PLAYER_SELECTION.name)
         self.mode = None 
         self.seg = seg
         self.timer = None
@@ -101,6 +102,7 @@ class GameTable(object):
 
                 if self.mode != None:
                      self.players[self.mode.value].arcade_button.switch_on()
+                     self.big_button.switch_on()
 
 
         # if current state is GAME_MODE_SELECTION
@@ -116,6 +118,9 @@ class GameTable(object):
             for player in filter(Player.is_active, self.players):
                 player.toggle_active()
                 player.toggle_active()
+
+            if len(self.get_active_players()) > 0:
+                self.big_button.switch_on()
 
         # TODO
         # but what?

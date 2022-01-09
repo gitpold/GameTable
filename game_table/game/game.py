@@ -43,7 +43,7 @@ def initialize_game():
     global game_table
     game_table = GameTable(players, big_button, seg)
 
-    GPIO.add_event_detect(big_button.button, GPIO.FALLING, callback=big_button_callback, bouncetime=200)
+    GPIO.add_event_detect(big_button.button, GPIO.FALLING, callback=big_button_callback, bouncetime=400)
 
     for player in players:
         GPIO.add_event_detect(player.arcade_button.button, GPIO.FALLING, callback=lambda x: player_button_callback(x, game_table.get_player_by_gpio(x).get_number()), bouncetime=200)
